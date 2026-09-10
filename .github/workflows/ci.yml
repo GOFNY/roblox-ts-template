@@ -1,0 +1,36 @@
+name: ci
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    checks:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7.0.1
+            - uses: pnpm/action-setup@v6.1.0
+              with:
+                  run_install: true
+                  cache: true
+            - uses: CompeyDev/setup-rokit@v0.2.1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  cache: true
+
+            - name: Lint
+              run: pnpm lint
+
+            - name: Format
+              run: pnpm format
+
+            - name: Type check
+              run: pnpm typecheck
+
+            - name: Compile
+              run: pnpm compile --verbose
+
+            - name: Build
+              run: pnpm build --verbose
