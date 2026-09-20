@@ -18,8 +18,13 @@ assert(assetsPlaceId, "Missing argument #1: assetsPlaceId")
 assert(projectPath, "Missing argument #2: projectPath")
 assert(outputPath, "Missing argument #3: outputPath")
 
+local compileResult = process.exec("rbxtsc")
+assert(compileResult.ok, `[{compileResult.code}]: {compileResult.stderr}`)
+print(compileResult.stdout)
+
 local buildResult = process.exec("rojo", { "build", "-o", buildPath })
 assert(buildResult.ok, `[{buildResult.code}]: {buildResult.stderr}`)
+print(buildResult.stdout)
 
 local buildBinary = fs.readFile(buildPath)
 fs.removeFile(buildPath)
