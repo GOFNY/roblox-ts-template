@@ -1,0 +1,90 @@
+name: deploy
+
+on:
+    # Development
+    push:
+        branches: [main]
+    # Staging & production
+    release:
+        types: [published]
+
+    workflow_dispatch:
+        inputs:
+            environment:
+                description: Target environment
+                type: choice
+                required: true
+                options:
+                    - development
+                    - staging
+                    - production
+
+jobs:
+    resolve:
+        if: vars.DEPLOY_DISABLED != 'true'
+        name: Resolve environment
+        runs-on: ubuntu-latest
+        outputs:
+            environment: ${{ steps.resolve.outputs.environment }}
+        steps:
+            - id: resolve
+              env:
+                  EVENT: ${{ github.event_name }}
+                  PRERELEASE: ${{ github.event.release.prerelease }}
+                  INPUT_ENVIRONMENT: ${{ inputs.environment }}
+              run: |
+                  case "$EVENT" in
+                    push)
+                      environment="development"
+                      ;;
+                    release)
+                      if [ "$PRERELEASE" = "true" ]; then
+                        environment="staging"
+                      else
+                        environment="production"
+                      fi
+                      ;;
+                    workflow_dispatch)
+                      environment="$INPUT_ENVIRONMENT"
+                      ;;
+                    *)
+                      echo "Unsupported event: $EVENT" >&2
+                      exit 1
+                      ;;
+                  esac
+
+                  echo "Deploying to: $environment"
+                  echo "environment=$environment" >> "$GITHUB_OUTPUT"
+
+    deploy:
+        name: Deploy (${{ needs.resolve.outputs.environment }})
+        needs: resolve
+        runs-on: ubuntu-latest
+        environment: ${{ needs.resolve.outputs.environment }}
+        concurrency:
+            group: deploy-${{ needs.resolve.outputs.environment }}
+            cancel-in-progress: false
+        steps:
+            - uses: actions/checkout@v7.0.1
+            - uses: pnpm/action-setup@v6.1.0
+              with:
+                  run_install: true
+                  cache: true
+            - uses: CompeyDev/setup-rokit@v0.2.1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  cache: true
+
+            - name: Build & merge places
+              run: pnpm run deploy ${{ vars.ASSETS_PLACE_ID }} default.project.json deploy.rbxl
+              env:
+                  ASSETS_API_KEY: ${{ secrets.ASSETS_API_KEY }}
+
+            - name: Deploy
+              uses: tenx29/save-to-roblox@v1
+              with:
+                  api-key: ${{ secrets.ROBLOX_API_KEY }}
+                  universe-id: ${{ vars.UNIVERSE_ID }}
+                  place-id: ${{ vars.PLACE_ID }}
+                  place-file: deploy.rbxl
+                  version-type: Published
