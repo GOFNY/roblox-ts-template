@@ -21,6 +21,7 @@ on:
 
 jobs:
     resolve:
+        if: vars.DEPLOY_DISABLED != 'true'
         name: Resolve environment
         runs-on: ubuntu-latest
         outputs:
