@@ -1,10 +1,6 @@
 name: deploy
 
 on:
-    # Development
-    push:
-        branches: [main]
-    # Staging & production
     release:
         types: [published]
 
@@ -15,7 +11,6 @@ on:
                 type: choice
                 required: true
                 options:
-                    - development
                     - staging
                     - production
 
@@ -38,7 +33,7 @@ jobs:
                    .vscode/**
     resolve:
         needs: check-changed
-        if: vars.DEPLOY_DISABLED != 'true' && needs.check-changed.outputs.any_changed == 'true'
+        if: needs.check-changed.outputs.any_changed == 'true'
         name: Resolve environment
         runs-on: ubuntu-latest
         outputs:
@@ -51,9 +46,6 @@ jobs:
                   INPUT_ENVIRONMENT: ${{ inputs.environment }}
               run: |
                   case "$EVENT" in
-                    push)
-                      environment="development"
-                      ;;
                     release)
                       if [ "$PRERELEASE" = "true" ]; then
                         environment="staging"
