@@ -3,21 +3,29 @@ name: ci
 on:
     push:
         branches: [main]
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
-            - ".github/**"
-            - ".vscode"
     pull_request:
         branches: [main]
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
-            - ".github/**"
-            - ".vscode"
 
 jobs:
-    checks:
+    check-changed:
+        runs-on: ubuntu-latest
+        outputs:
+          any_changed: ${{ steps.changed-files.outputs.any_changed }}
+        steps:
+          - uses: actions/checkout@v7.0.1
+
+          - name: Check files
+            uses: tj-actions/changed-files@v47.0.6
+            id: changed-files
+            with:
+              files_ignore: |
+                   README.md
+                   LICENSE
+                   .github/**
+                   .vscode/**
+    build:
+        needs: check-changed
+        if: needs.check-changed.outputs.any_changed == 'true'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v7.0.1
