@@ -8,6 +8,29 @@ A Roblox-TS project template partially Rojo managed with Flamework and Flamework
 - [Roblox-TS](https://roblox-ts.com/)
 - [Flamework](https://flamework.fireboltofdeath.dev/)
 
+### File structure
+
+```plaintext
+roblox-ts-game
+├── src
+│   ├── client
+│   │   ├── components        # Client-side Flamework components
+│   │   ├── controllers       # Flamework controllers
+│   │   ├── network           # Network definitions used by the client
+│   │   └── runtime.client.ts # Client entry point
+│   ├── server
+│   │   ├── components        # Server-side Flamework components
+│   │   ├── network           # Network definitions used by the server
+│   │   ├── runtime.server.ts # Server entry point
+│   │   └── services          # Flamework services
+│   └── shared
+│       ├── components        # Shared Flamework components
+│       └── network           # Shared network definitions
+├── default.project.json      # Rojo project configuration
+├── package.json              # Package manifest & dependencies
+└── tsconfig.json             # TypeScript configuration
+```
+
 ## How to use
 
 ### Prerequisites
