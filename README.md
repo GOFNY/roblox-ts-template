@@ -73,12 +73,11 @@ And all done!
 
 Deploys run through GitHub Actions (`.github/workflows/deploy.yml`):
 
-| Trigger                 | Environment   |
-| ----------------------- | ------------- |
-| Push to `main`          | `development` |
-| Pre-release published   | `staging`     |
-| Release published       | `production`  |
-| Manual (`Run workflow`) | Your choice   |
+| Trigger                 | Environment  |
+| ----------------------- | ------------ |
+| Pre-release published   | `staging`    |
+| Release published       | `production` |
+| Manual (`Run workflow`) | Your choice  |
 
 ### Configuration
 
@@ -90,7 +89,7 @@ Add it under Settings -> Secrets and variables -> Actions -> Repository secrets:
 
 **2. Environments**
 
-Create three environments named `development`, `staging` and `production` (Settings -> Environments). Each one needs its own values for:
+Create two environments named `staging` and `production` (Settings -> Environments). Each one needs its own values for:
 
 Secrets:
 
