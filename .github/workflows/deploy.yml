@@ -15,25 +15,7 @@ on:
                     - production
 
 jobs:
-    check-changed:
-        runs-on: ubuntu-latest
-        outputs:
-          any_changed: ${{ steps.changed-files.outputs.any_changed }}
-        steps:
-          - uses: actions/checkout@v7.0.1
-
-          - name: Check files
-            uses: tj-actions/changed-files@v47.0.6
-            id: changed-files
-            with:
-              files_ignore: |
-                   README.md
-                   LICENSE
-                   .github/**
-                   .vscode/**
     resolve:
-        needs: check-changed
-        if: needs.check-changed.outputs.any_changed == 'true'
         name: Resolve environment
         runs-on: ubuntu-latest
         outputs:
