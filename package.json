@@ -14,7 +14,7 @@
 		"dev": "concurrently \"pnpm watch\" \"pnpm serve\"",
 		"deploy": "lune run deploy"
 	},
-	"packageManager": "pnpm@10.33.0",
+	"packageManager": "pnpm@12.6.0",
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@rbxts/compiler-types": "3.0.0-types.0",
