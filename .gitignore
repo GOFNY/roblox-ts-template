@@ -1,0 +1,10 @@
+/node_modules
+/out
+*.rbxl*
+*.tsbuildinfo
+flamework.build
+default.project.json
+
+# Keep it that way! It's necessary for rogen and rbxtsc to work together.
+/include/**
+!include/.gitkeep 
