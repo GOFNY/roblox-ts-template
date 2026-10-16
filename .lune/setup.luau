@@ -69,7 +69,6 @@ fs.writeFile(rogenJsonPath, replaceName(rogenJson, projectName, projectStart))
 removeIfExists(licensePath)
 removeIfExists(readmePath)
 
-run("Installing dependencies", "pnpm", { "install" })
 run("Compiling the project", "pnpm", { "compile" })
 
 print("Done. Byeeeee :)")
