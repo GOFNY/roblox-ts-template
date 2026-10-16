@@ -50,17 +50,16 @@ Use the "nameType" pattern for services, controllers, and components.
 pnpx degit https://github.com/GOFNY/roblox-ts-template
 ```
 
-**2. Install dependencies**
+**2. Install development tools**
 
 ```bash
 rokit install
-pnpm install
 ```
 
-**3. Compile the project**
+**3. Run the wizard**
 
 ```bash
-pnpm compile
+pnpm run setup
 ```
 
 **4. Sync your project**
@@ -124,6 +123,7 @@ Create both keys in the [Creator Hub](https://create.roblox.com/dashboard/creden
 - `pnpm compile`: Compile the project.
 - `pnpm build`: Build the project.
 - `pnpm dev`: Runs watch & serve in parallel.
+- `pnpm setup`: Run the setup wizard and remove template artifacts.
 
 ## License
 

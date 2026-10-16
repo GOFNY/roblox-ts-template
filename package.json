@@ -10,7 +10,8 @@
 		"compile": "rogen build -m ts && rbxtsc",
 		"build": "pnpm compile && rojo build -o game.rbxl",
 		"dev": "pnpm compile && concurrently -k -n rogen,ts,rojo \"rogen watch\" \"rbxtsc -w\" \"rojo serve\"",
-		"deploy": "lune run deploy"
+		"deploy": "lune run deploy",
+		"setup": "lune run setup"
 	},
 	"packageManager": "pnpm@12.6.0",
 	"devDependencies": {
