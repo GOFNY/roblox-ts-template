@@ -13,7 +13,7 @@
 		"deploy": "lune run deploy",
 		"setup": "lune run setup"
 	},
-	"packageManager": "pnpm@12.6.0",
+	"packageManager": "pnpm@12.14.0",
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@rbxts/compiler-types": "3.0.0-types.0",
