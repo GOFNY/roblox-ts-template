@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "typescript"
+    groups:
+      deps:
+        dependency-type: "production"
+      deps-dev:
+        dependency-type: "development"

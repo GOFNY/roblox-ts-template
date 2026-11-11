@@ -1,0 +1,33 @@
+name: deploy
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.event.release.prerelease && 'staging' || 'production' }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: ${{ github.event.release.prerelease && 'staging' || 'production' }}
+    steps:
+      - name: Download place file
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern deploy.rbxl
+
+      - name: Deploy
+        uses: tenx29/save-to-roblox@v1
+        with:
+          api-key: ${{ secrets.ROBLOX_API_KEY }}
+          universe-id: ${{ vars.UNIVERSE_ID }}
+          place-id: ${{ vars.PLACE_ID }}
+          place-file: deploy.rbxl
+          version-type: Published
